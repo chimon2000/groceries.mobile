@@ -1,0 +1,12 @@
+<ActionBar title="Groceries" icon="">
+    <ActionItem text="share" (tap)="share()" ios.position="right" android.systemIcon="ic_menu_share_holo_dark" ios.systemIcon="9">
+    </ActionItem>
+</ActionBar>
+
+<GridLayout rows="auto, *">
+    <grocery-input #groceryInput row="0" (addGrocery)="add($event)"></grocery-input>
+
+    <grocery-list class="small-spacing" [class.visible]="!isLoading" row="1" [groceries]="groceries" (deleteGrocery)="onDelete($event)"></grocery-list>
+
+    <ActivityIndicator width="25" height="25" [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'" row="1" horizontalAlignment="center" verticalAlignment="center"></ActivityIndicator>
+</GridLayout>

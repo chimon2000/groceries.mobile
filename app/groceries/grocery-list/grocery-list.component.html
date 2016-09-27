@@ -1,0 +1,10 @@
+<ListView separatorColor="transparent" [items]="groceries" row="1" class="small-spacing" [class.visible]="!isLoading">
+    <template let-item="item">
+        <GridLayout columns="*, auto" class="item">
+            <Label col="0" [text]="item.name" class="medium-spacing"></Label>
+            <StackLayout (tap)="onDelete(item)" col="1" orientation="horizontal" verticalAlignment='center' class="delete-container">
+                <Image src="res://delete"></Image>
+            </StackLayout>
+        </GridLayout>
+    </template>
+</ListView>
