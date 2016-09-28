@@ -34,7 +34,7 @@ export class GroceriesComponent implements OnInit {
     ngOnInit() {
         this.isLoading = true
         this.groceries = this.store.select(state => state.groceries)
-        
+
         this.groceryService.load()
             .do(() => this.isLoading = false)
             .subscribe()
@@ -59,9 +59,13 @@ export class GroceriesComponent implements OnInit {
     }
 
     share() {
-        let listString = this.groceries
+        console.log('share')
+        this.groceries
             .map(groceries => groceries.map(row => row.name).join(', ').trim())
+            .do(listString => console.log('mapped successfully', listString))
             .do(listString => socialShare.shareText(listString))
+            .subscribe()
+            .unsubscribe()
 
 
     }

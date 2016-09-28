@@ -2,7 +2,6 @@ import { Action } from '@ngrx/store';
 
 export const GroceryActions = {
     AddGroceryAction: 'AddGroceryAction',
-    AddGroceriesAction: 'AddGroceriesAction',
     LoadGroceriesAction: 'LoadGroceriesAction',
     LoadGroceriesSuccessAction: 'LoadGroceriesSuccessAction',
     RemoveGroceryAction: 'RemoveGroceryAction'
@@ -13,13 +12,9 @@ export class AddGroceryAction implements Action {
     constructor(public payload?: { id: string, name: string }) { }
 }
 
-export class AddGroceriesAction implements Action {
-    type = GroceryActions.AddGroceriesAction
-    constructor(public payload?: { id: string, name: string }[]) { }
-}
-
 export class LoadGroceriesAction implements Action {
     type = GroceryActions.LoadGroceriesAction
+    constructor(public payload?: { id: string, name: string }[]) { }
 }
 
 export class LoadGroceriesSuccessAction implements Action {

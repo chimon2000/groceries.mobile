@@ -9,7 +9,7 @@ import {
 import {
     AddGroceryAction,
     RemoveGroceryAction,
-    AddGroceriesAction
+    LoadGroceriesAction
 } from './grocery.actions'
 
 import {
@@ -37,7 +37,7 @@ export class GroceryService {
                 return groceries
             })
             .do(groceries => {   
-                this.store.dispatch(new AddGroceriesAction(groceries))
+                this.store.dispatch(new LoadGroceriesAction(groceries))
             })
             .catch(handleErrors)
     }
