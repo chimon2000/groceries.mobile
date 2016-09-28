@@ -1,27 +1,26 @@
 import { Injectable, Inject } from "@angular/core";
 import { Http, Headers } from "@angular/http";
 import { Observable, Observer } from "rxjs";
-import { Config } from "../config";
-import { handleErrors, buildUrl } from '../util';
+import { handleErrors, buildUrl, Config } from '../../shared';
 import {
     Grocery
 } from './grocery'
 
 import {
-    Action,
     AddGroceryAction,
     RemoveGroceryAction
-} from '../actions'
+} from './grocery.actions'
 
 import {
-    dispatcher
-} from '../state'
+    AppState
+} from '../../app.state'
+
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class GroceryService {
 
-    constructor(private http: Http,
-        @Inject(dispatcher) private dispatcher: Observer<Action>) { }
+    constructor(private http: Http, public store: Store<AppState>) { }
 
     load(): Observable<Grocery[]> {
         let headers = new Headers()
@@ -37,7 +36,11 @@ export class GroceryService {
                 return groceries
             })
             .do(groceries => {
-                groceries.forEach(grocery => this.dispatcher.next(new AddGroceryAction(grocery.id, grocery.name)))
+                
+                groceries.forEach(({id, name}) => {
+                    
+                    this.store.dispatch(new AddGroceryAction({ id, name }))
+                })
             })
             .catch(handleErrors)
     }
@@ -57,7 +60,7 @@ export class GroceryService {
             )
             .map(res => res.json())
             .map(({Result}) => new Grocery(Result.Id, name))
-            .do(grocery => this.dispatcher.next(new AddGroceryAction(grocery.id, grocery.name)))
+            .do(({id, name}) => this.store.dispatch(new AddGroceryAction({ id, name })))
             .catch(handleErrors)
     }
 
@@ -71,7 +74,7 @@ export class GroceryService {
         return this.http
             .delete(url, { headers })
             .map(res => res.json())
-            .do(() => this.dispatcher.next(new RemoveGroceryAction(id)))
+            .do(() => this.store.dispatch(new RemoveGroceryAction({ id })))
             .catch(handleErrors)
     }
 }

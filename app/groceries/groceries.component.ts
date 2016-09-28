@@ -2,17 +2,10 @@ import { Component, ElementRef, OnInit, ViewChild, Inject, Input } from "@angula
 import { TextField } from 'ui/text-field';
 import * as socialShare from 'nativescript-social-share';
 import { Observable, Observer } from 'rxjs';
-import {
-    Grocery,
-    GroceryService,
-    StateAndDispatcher,
-    dispatcher,
-    state,
-    AppState,
-    Action,
-    AddGroceryAction,
-    RemoveGroceryAction
-} from '../shared'
+import { Store } from '@ngrx/store';
+
+import { AppState } from '../app.state'
+import {Grocery, GroceryService, AddGroceryAction, RemoveGroceryAction} from './shared'
 
 import { GroceryInputComponent } from './grocery-input';
 
@@ -25,30 +18,23 @@ import { GroceryInputComponent } from './grocery-input';
         'groceries.component.css'
     ],
     providers: [
-        GroceryService,
-        StateAndDispatcher
+        GroceryService
     ]
 })
 export class GroceriesComponent implements OnInit {
 
-    groceries: Array<Grocery> = []
+    groceries: Observable<Grocery[]>
     isLoading = false
 
     @ViewChild(GroceryInputComponent) groceryInput: GroceryInputComponent
 
 
-    constructor(private groceryService: GroceryService,
-        @Inject(state) private state: Observable<AppState>) { }
+    constructor(private groceryService: GroceryService, public store: Store<AppState>) { }
 
     ngOnInit() {
         this.isLoading = true
-        this.state.distinctUntilChanged()
-            .subscribe(
-            state => {
-                this.groceries = state.groceries
-            }
-            )
-
+        this.groceries = this.store.select(state => state.groceries)
+        
         this.groceryService.load()
             .do(() => this.isLoading = false)
             .subscribe()
@@ -74,10 +60,9 @@ export class GroceriesComponent implements OnInit {
 
     share() {
         let listString = this.groceries
-            .map(row => row.name)
-            .join(', ')
-            .trim()
+            .map(groceries => groceries.map(row => row.name).join(', ').trim())
+            .do(listString => socialShare.shareText(listString))
 
-        socialShare.shareText(listString)
+
     }
 }
