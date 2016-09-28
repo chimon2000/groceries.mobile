@@ -8,7 +8,8 @@ import {
 
 import {
     AddGroceryAction,
-    RemoveGroceryAction
+    RemoveGroceryAction,
+    AddGroceriesAction
 } from './grocery.actions'
 
 import {
@@ -35,12 +36,8 @@ export class GroceryService {
                     .map(grocery => new Grocery(grocery.Id, grocery.Name))
                 return groceries
             })
-            .do(groceries => {
-                
-                groceries.forEach(({id, name}) => {
-                    
-                    this.store.dispatch(new AddGroceryAction({ id, name }))
-                })
+            .do(groceries => {   
+                this.store.dispatch(new AddGroceriesAction(groceries))
             })
             .catch(handleErrors)
     }

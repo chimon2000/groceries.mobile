@@ -1,14 +1,19 @@
 import { ActionReducer, Action } from '@ngrx/store';
 import { Grocery } from './grocery';
-import { AddGroceryAction, RemoveGroceryAction } from './grocery.actions';
+import { AddGroceryAction, RemoveGroceryAction, AddGroceriesAction } from './grocery.actions';
 
 export const groceriesReducer: ActionReducer<Grocery[]> = (state: Grocery[], action: Action) => {
     console.log('groceriesReducer')
-    
+
     if (action instanceof AddGroceryAction) {
         const grocery = new Grocery(action.payload.id, action.payload.name)
 
         return [...state, grocery]
+    }
+    else if (action instanceof AddGroceriesAction) {
+        const groceries = action.payload.map(row => new Grocery(row.id, row.name))
+        
+        return [...state, ...groceries]
     }
     else if (action instanceof RemoveGroceryAction) {
 
