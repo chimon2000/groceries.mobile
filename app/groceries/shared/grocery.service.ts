@@ -7,9 +7,9 @@ import {
 } from './grocery'
 
 import {
-    AddGroceryAction,
-    RemoveGroceryAction,
-    LoadGroceriesAction
+    AddGrocerySuccessAction,
+    RemoveGrocerySuccessAction,
+    LoadGroceriesSuccessAction
 } from './grocery.actions'
 
 import {
@@ -37,7 +37,7 @@ export class GroceryService {
                 return groceries
             })
             .do(groceries => {   
-                this.store.dispatch(new LoadGroceriesAction(groceries))
+                this.store.dispatch(new LoadGroceriesSuccessAction(groceries))
             })
             .catch(handleErrors)
     }
@@ -57,7 +57,7 @@ export class GroceryService {
             )
             .map(res => res.json())
             .map(({Result}) => new Grocery(Result.Id, name))
-            .do(({id, name}) => this.store.dispatch(new AddGroceryAction({ id, name })))
+            .do(({id, name}) => this.store.dispatch(new AddGrocerySuccessAction({ id, name })))
             .catch(handleErrors)
     }
 
@@ -71,7 +71,7 @@ export class GroceryService {
         return this.http
             .delete(url, { headers })
             .map(res => res.json())
-            .do(() => this.store.dispatch(new RemoveGroceryAction({ id })))
+            .do(() => this.store.dispatch(new RemoveGrocerySuccessAction({ id })))
             .catch(handleErrors)
     }
 }

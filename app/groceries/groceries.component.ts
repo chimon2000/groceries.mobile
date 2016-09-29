@@ -5,7 +5,7 @@ import { Observable, Observer } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { AppState } from '../app.state'
-import {Grocery, GroceryService, AddGroceryAction, RemoveGroceryAction} from './shared'
+import {Grocery, GroceryService, LoadGroceriesAction, AddGroceryAction, RemoveGroceryAction} from './shared'
 
 import { GroceryInputComponent } from './grocery-input';
 
@@ -32,12 +32,16 @@ export class GroceriesComponent implements OnInit {
     constructor(private groceryService: GroceryService, public store: Store<AppState>) { }
 
     ngOnInit() {
-        this.isLoading = true
+        // this.isLoading = true
         this.groceries = this.store.select(state => state.groceries)
 
-        this.groceryService.load()
-            .do(() => this.isLoading = false)
-            .subscribe()
+        this.groceries.subscribe(() => this.isLoading = false)
+
+        this.store.dispatch(new LoadGroceriesAction())
+
+        // this.groceryService.load()
+        //     .do(() => this.isLoading = false)
+        //     .subscribe()
     }
 
     add(grocery) {
