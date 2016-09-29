@@ -2,27 +2,6 @@ import { ActionReducer, Action } from '@ngrx/store';
 import { Grocery } from './grocery';
 import { AddGroceryAction, RemoveGroceryAction, LoadGroceriesAction } from './grocery.actions';
 
-export const groceriesReducer: ActionReducer<Grocery[]> = (state: Grocery[], action: Action) => {
-    console.log('groceriesReducer')
-
-    if (action instanceof AddGroceryAction) {
-        const grocery = new Grocery(action.payload.id, action.payload.name)
-
-        return [...state, grocery]
-    }
-    else if (action instanceof LoadGroceriesAction) {
-        const groceries = action.payload.map(row => new Grocery(row.id, row.name))
-
-        return [...groceries]
-    }
-    else if (action instanceof RemoveGroceryAction) {
-
-        return removeGrocery(state, action.payload.id)
-    }
-
-    return [...state]
-}
-
 let removeGrocery = (groceries: Grocery[], id: string) => {
     let index = findIndex(groceries, id)
 
@@ -46,4 +25,24 @@ let findIndex = (groceries: Grocery[], id: string) => {
     }
 
     return index
+}
+
+export const groceriesReducer: ActionReducer<Grocery[]> = (state: Grocery[], action: Action) => {
+
+    if (action instanceof AddGroceryAction) {
+        const grocery = new Grocery(action.payload.id, action.payload.name)
+
+        return [...state, grocery]
+    }
+    else if (action instanceof LoadGroceriesAction) {
+        const groceries = action.payload.map(row => new Grocery(row.id, row.name))
+
+        return [...groceries]
+    }
+    else if (action instanceof RemoveGroceryAction) {
+
+        return removeGrocery(state, action.payload.id)
+    }
+
+    return [...state]
 }

@@ -7,16 +7,13 @@ import { GroceriesComponent }   from './groceries.component';
 import { GroceryListComponent } from './grocery-list';
 import { GroceryInputComponent } from './grocery-input';
 import { GroceriesRoutes } from './groceries.routes';
-import { groceriesReducer } from './shared';
-import { Store, StoreModule } from '@ngrx/store';
 
 @NgModule({
     imports: [
         CommonModule,
         NativeScriptModule,
         NativeScriptFormsModule,
-        GroceriesRoutes,
-        StoreModule.provideStore({ groceries: groceriesReducer }, { groceries: [] })
+        GroceriesRoutes
     ],
     declarations: [
         GroceriesComponent,
