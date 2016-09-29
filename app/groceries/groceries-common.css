@@ -1,6 +1,6 @@
 .visible {
   animation-name: show;
-  animation-duration: 1s;
+  animation-duration: 2s;
 }
 
 @keyframes show {

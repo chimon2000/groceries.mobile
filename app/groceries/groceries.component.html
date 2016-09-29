@@ -6,7 +6,7 @@
 <GridLayout rows="auto, *">
     <grocery-input #groceryInput row="0" (addGrocery)="add($event)"></grocery-input>
 
-    <grocery-list class="small-spacing" [class.visible]="!isLoading" row="1" [groceries]="groceries | async" (deleteGrocery)="onDelete($event)"></grocery-list>
+    <grocery-list class="small-spacing" *ngIf="!isLoading" row="1" [groceries]="groceries | async" (deleteGrocery)="onDelete($event)" (toggleGrocery)="onToggle($event)"></grocery-list>
 
     <ActivityIndicator width="25" height="25" [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'" row="1" horizontalAlignment="center" verticalAlignment="center"></ActivityIndicator>
 </GridLayout>

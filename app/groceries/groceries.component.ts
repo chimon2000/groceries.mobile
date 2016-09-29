@@ -58,6 +58,23 @@ export class GroceriesComponent implements OnInit {
             .subscribe()
     }
 
+    onToggle(grocery: Grocery) {
+
+        switch (grocery.status) {
+            case 'pending':
+                this.groceryService
+                    .complete(grocery)
+                    .subscribe()
+                break;
+
+            default:
+                this.groceryService
+                    .undo(grocery)
+                    .subscribe()
+                break;
+        }
+    }
+
     share() {
         console.log('share')
         this.groceries

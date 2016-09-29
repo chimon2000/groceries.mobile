@@ -1,7 +1,7 @@
 .delete-container {
   background-color: #CB1D00;
   padding: 5;
-  vertical-align: middle;
+  vertical-align: center;
   height: 20;
   margin-right: 8;
   border-radius: 5;
@@ -9,4 +9,5 @@
 
 .item {
   border: 0;
+  vertical-align: center;
 }

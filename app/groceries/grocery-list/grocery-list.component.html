@@ -1,8 +1,13 @@
-<ListView separatorColor="transparent" [items]="groceries" row="1" class="small-spacing" [class.visible]="!isLoading">
+<ListView [items]="groceries" row="1" class="small-spacing" [class.visible]="!isLoading">
     <template let-item="item">
-        <GridLayout columns="*, auto" class="item">
-            <Label col="0" [text]="item.name" class="medium-spacing"></Label>
-            <StackLayout (tap)="onDelete(item)" col="1" orientation="horizontal" verticalAlignment='center' class="delete-container">
+        <GridLayout columns="auto, *, auto" class="item small-padding">
+            <StackLayout col="0" verticalAlignment='center'>
+                <CheckBox [checked]="item.status === 'complete'" (tap)="onToggle(item)"></CheckBox>
+            </StackLayout>
+            <StackLayout col="1" verticalAlignment='center'>
+                <Label [text]="item.name"></Label>
+            </StackLayout>
+            <StackLayout (tap)="onDelete(item)" col="2" orientation="horizontal" verticalAlignment='center' class="delete-container">
                 <Image src="res://delete"></Image>
             </StackLayout>
         </GridLayout>

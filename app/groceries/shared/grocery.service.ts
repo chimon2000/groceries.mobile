@@ -8,6 +8,7 @@ import {
 
 import {
     AddGroceryAction,
+    UpdateGroceryAction,
     RemoveGroceryAction,
     LoadGroceriesAction
 } from './grocery.actions'
@@ -33,10 +34,11 @@ export class GroceryService {
             .map(res => res.json())
             .map(({Result = []}) => {
                 let groceries = Result
-                    .map(grocery => new Grocery(grocery.Id, grocery.Name))
+                    .map(grocery => new Grocery(grocery.Id, grocery.Name, grocery.Status))
+
                 return groceries
             })
-            .do(groceries => {   
+            .do(groceries => {
                 this.store.dispatch(new LoadGroceriesAction(groceries))
             })
             .catch(handleErrors)
@@ -57,7 +59,7 @@ export class GroceryService {
             )
             .map(res => res.json())
             .map(({Result}) => new Grocery(Result.Id, name))
-            .do(({id, name}) => this.store.dispatch(new AddGroceryAction({ id, name })))
+            .do((grocery) => this.store.dispatch(new AddGroceryAction(grocery)))
             .catch(handleErrors)
     }
 
@@ -72,6 +74,38 @@ export class GroceryService {
             .delete(url, { headers })
             .map(res => res.json())
             .do(() => this.store.dispatch(new RemoveGroceryAction({ id })))
+            .catch(handleErrors)
+    }
+
+    complete({id, name}) {
+        let headers = new Headers()
+        headers.append('Authorization', `Bearer ${Config.token}`)
+        headers.append('Content-Type', 'application/json')
+        let url = buildUrl(Config.apiUrl, 'Groceries', id)
+
+        let payload = JSON.stringify({ Status: 'complete' })
+
+        return this.http
+            .put(url, payload, { headers })
+            .map(res => res.json())
+            .map(() => new Grocery(name, id, status))
+            .do((grocery) => this.store.dispatch(new UpdateGroceryAction(grocery)))
+            .catch(handleErrors)
+    }
+
+    undo({id, name}) {
+        let headers = new Headers()
+        headers.append('Authorization', `Bearer ${Config.token}`)
+        headers.append('Content-Type', 'application/json')
+        let url = buildUrl(Config.apiUrl, 'Groceries', id)
+
+        let payload = JSON.stringify({ Status: 'pending' })
+
+        return this.http
+            .put(url, payload, { headers })
+            .map(res => res.json())
+            .map(() => new Grocery(name, id, status))
+            .do((grocery) => this.store.dispatch(new UpdateGroceryAction(grocery)))
             .catch(handleErrors)
     }
 }

@@ -16,7 +16,15 @@ TextField {
   margin: 10;
 }
 
+.small-padding {
+  padding: 5;
+}
+.medium-padding {
+  padding: 10;
+}
+
 ActionBar {
-  background-color: black;
+  background-color: #CB1D00;
+  opacity: .8;
   color: white;
 }
