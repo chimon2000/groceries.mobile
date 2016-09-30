@@ -53,9 +53,9 @@ export class GroceryService {
 
         return this.http
             .post(
-            buildUrl(Config.apiUrl, 'Groceries'),
-            payload,
-            { headers }
+                buildUrl(Config.apiUrl, 'Groceries'),
+                payload,
+                { headers }
             )
             .map(res => res.json())
             .map(({Result}) => new Grocery(Result.Id, name))

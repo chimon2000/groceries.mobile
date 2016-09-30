@@ -4,7 +4,7 @@
             <StackLayout col="0" verticalAlignment='center'>
                 <CheckBox [checked]="item.status === 'complete'" (tap)="onToggle(item)"></CheckBox>
             </StackLayout>
-            <StackLayout col="1" verticalAlignment='center'>
+            <StackLayout col="1" corientation="horizontal" verticalAlignment='center'>
                 <Label [text]="item.name"></Label>
             </StackLayout>
             <StackLayout (tap)="onDelete(item)" col="2" orientation="horizontal" verticalAlignment='center' class="delete-container">
