@@ -1,5 +1,5 @@
 import { platformNativeScriptDynamic } from "nativescript-angular/platform";
-import { setStatusBarColors } from "./utils";
+import { setStatusBarColors } from "./shared";
 
 import { AppModule } from "./app.module";
 

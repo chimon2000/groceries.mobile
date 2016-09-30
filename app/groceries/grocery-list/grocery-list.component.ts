@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { Grocery } from '../../shared';
+import { Grocery } from '../shared';
 
 @Component({
     moduleId: module.id,

@@ -5,14 +5,12 @@ import { Observable, Observer } from 'rxjs';
 import {
     Grocery,
     GroceryService,
-    StateAndDispatcher,
-    dispatcher,
-    state,
-    AppState,
     Action,
     AddGroceryAction,
     RemoveGroceryAction
-} from '../shared'
+} from './shared'
+
+import { AppState, state } from '../app.state'   
 
 import { GroceryInputComponent } from './grocery-input';
 
@@ -25,8 +23,7 @@ import { GroceryInputComponent } from './grocery-input';
         'groceries.component.css'
     ],
     providers: [
-        GroceryService,
-        StateAndDispatcher
+        GroceryService
     ]
 })
 export class GroceriesComponent implements OnInit {

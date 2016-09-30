@@ -1,8 +1,7 @@
 import { Injectable, Inject } from "@angular/core";
 import { Http, Headers } from "@angular/http";
 import { Observable, Observer } from "rxjs";
-import { Config } from "../config";
-import { handleErrors, buildUrl } from '../util';
+import { handleErrors, buildUrl } from '../../shared';
 import {
     Grocery
 } from './grocery'
@@ -10,12 +9,12 @@ import {
 import {
     Action,
     AddGroceryAction,
+    LoadGroceriesAction,
     RemoveGroceryAction
-} from '../actions'
+} from './grocery.actions'
 
-import {
-    dispatcher
-} from '../state'
+import { Config } from '../../shared'
+import { dispatcher } from '../../app.state'
 
 @Injectable()
 export class GroceryService {
@@ -37,7 +36,7 @@ export class GroceryService {
                 return groceries
             })
             .do(groceries => {
-                groceries.forEach(grocery => this.dispatcher.next(new AddGroceryAction(grocery.id, grocery.name)))
+                this.dispatcher.next(new LoadGroceriesAction(groceries))
             })
             .catch(handleErrors)
     }
@@ -57,7 +56,7 @@ export class GroceryService {
             )
             .map(res => res.json())
             .map(({Result}) => new Grocery(Result.Id, name))
-            .do(grocery => this.dispatcher.next(new AddGroceryAction(grocery.id, grocery.name)))
+            .do(grocery => this.dispatcher.next(new AddGroceryAction(grocery)))
             .catch(handleErrors)
     }
 

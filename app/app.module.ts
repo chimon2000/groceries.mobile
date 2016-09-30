@@ -9,6 +9,7 @@ import { AppComponent } from "./app.component";
 import { AppRoutes } from './app.routes';
 import { GroceriesModule } from './groceries';
 import { LoginModule } from './login';
+import { StateAndDispatcher } from './app.state'   
 
 @NgModule({
   imports: [
@@ -24,6 +25,9 @@ import { LoginModule } from './login';
   declarations: [
     AppComponent
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [
+    StateAndDispatcher
+  ]
 })
 export class AppModule { }

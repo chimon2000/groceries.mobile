@@ -1,4 +1,3 @@
 export * from './user'
-export * from './grocery'
-export * from './state'
-export * from './actions'
+export * from './config'
+export * from './utils'
