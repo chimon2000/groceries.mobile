@@ -1,17 +1,21 @@
 {
     "compilerOptions": {
-        "outDir": "app",
-        "rootDir": "app",
-        "module": "commonjs",
         "target": "es5",
+        "module": "commonjs",
         "inlineSourceMap": true,
-        "experimentalDecorators": true,
-        "removeComments": false,
         "emitDecoratorMetadata": true,
-        "noEmitOnError": true
+        "experimentalDecorators": true
     },
+    "filesGlob": [
+        "app/**/*.ts",
+        "!./node_modules/**/*.ts"
+    ],
     "exclude": [
         "node_modules",
         "platforms"
-    ]
+    ],
+    "compileOnSave": false,
+    "atom": {
+        "rewriteTsconfig": false
+    }
 }
