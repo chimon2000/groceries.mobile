@@ -45,12 +45,12 @@ let findIndex = (groceries: Grocery[], id: string) => {
 export const groceriesReducer: ActionReducer<Grocery[]> = (state: Grocery[], action: Action) => {
 
     if (action instanceof AddGroceryAction) {
-        const grocery = new Grocery(action.payload.id, action.payload.name, action.payload.status)
+        const grocery = new Grocery(action.payload)
 
         return [...state, grocery]
     }
     else if (action instanceof LoadGroceriesAction) {
-        const groceries = action.payload.map(row => new Grocery(row.id, row.name, row.status))
+        const groceries = action.payload.map(row => new Grocery(row))
 
         return [...groceries]
     }

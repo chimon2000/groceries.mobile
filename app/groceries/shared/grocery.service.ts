@@ -25,6 +25,7 @@ export class GroceryService {
     constructor(private http: Http, public store: Store<AppState>) { }
 
     load(): Observable<Grocery[]> {
+
         let headers = new Headers()
         headers.append('Authorization', `Bearer ${Config.token}`)
         let url = buildUrl(Config.apiUrl, 'Groceries')
@@ -33,10 +34,8 @@ export class GroceryService {
             .get(url, { headers })
             .map(res => res.json())
             .map(({Result = []}) => {
-                let groceries = Result
-                    .map(grocery => new Grocery(grocery.Id, grocery.Name, grocery.Status))
-
-                return groceries
+                return Result
+                    .map(grocery => new Grocery(grocery))
             })
             .do(groceries => {
                 this.store.dispatch(new LoadGroceriesAction(groceries))
@@ -53,12 +52,12 @@ export class GroceryService {
 
         return this.http
             .post(
-                buildUrl(Config.apiUrl, 'Groceries'),
-                payload,
-                { headers }
+            buildUrl(Config.apiUrl, 'Groceries'),
+            payload,
+            { headers }
             )
             .map(res => res.json())
-            .map(({Result}) => new Grocery(Result.Id, name))
+            .map(({Result}) => new Grocery({ id: Result.Id, name }))
             .do((grocery) => this.store.dispatch(new AddGroceryAction(grocery)))
             .catch(handleErrors)
     }
@@ -88,7 +87,7 @@ export class GroceryService {
         return this.http
             .put(url, payload, { headers })
             .map(res => res.json())
-            .map(() => new Grocery(name, id, status))
+            .map(() => new Grocery({ name, id, status }))
             .do((grocery) => this.store.dispatch(new UpdateGroceryAction(grocery)))
             .catch(handleErrors)
     }
@@ -104,7 +103,7 @@ export class GroceryService {
         return this.http
             .put(url, payload, { headers })
             .map(res => res.json())
-            .map(() => new Grocery(name, id, status))
+            .map(() => new Grocery({ name, id, status }))
             .do((grocery) => this.store.dispatch(new UpdateGroceryAction(grocery)))
             .catch(handleErrors)
     }
